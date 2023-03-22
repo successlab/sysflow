@@ -1,0 +1,18 @@
+package sysflow_controller;
+
+public class sf_type_operation {
+	public static final int SYSFLOW_OP_UNKNOWN	=	-1;        		
+	public static final int SYSFLOW_FILE_IOCTL	=	0;	/*file operation*/
+	public static final int SYSFLOW_FILE_READ	=	1;
+	public static final int SYSFLOW_FILE_WRITE	=	2
+	public static final int SYSFLOW_FILE_APPEND		3
+	public static final int SYSFLOW_FILE_CREATE		4
+	public static final int SYSFLOW_FILE_GETATTR	5	
+	public static final int SYSFLOW_FILE_SETATTR	6
+	public static final int SYSFLOW_FILE_LOCK		7
+	public static final int SYSFLOW_FILE_LINK		8
+	public static final int SYSFLOW_FILE_EXECUTE	9
+	public static final int SYSFLOW_FILE_RENAME		10
+	public static final int SYSFLOW_FILE_OPEN       11
+}
+

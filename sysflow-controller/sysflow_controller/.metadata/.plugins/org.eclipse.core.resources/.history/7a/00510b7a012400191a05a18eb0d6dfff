@@ -1,0 +1,258 @@
+package openflow_controller;
+
+import org.jboss.netty.bootstrap.ServerBootstrap;
+import org.jboss.netty.buffer.ChannelBuffer;
+import org.jboss.netty.buffer.ChannelBuffers;
+import org.jboss.netty.channel.*;
+import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
+import org.jboss.netty.handler.codec.frame.LengthFieldBasedFrameDecoder;
+import org.jboss.netty.handler.codec.oneone.OneToOneDecoder;
+import org.jboss.netty.handler.codec.oneone.OneToOneEncoder;
+import org.openflow.protocol.*;
+import org.openflow.protocol.action.OFAction;
+import org.openflow.protocol.action.OFActionOutput;
+import org.openflow.protocol.factory.BasicFactory;
+import org.openflow.protocol.factory.OFMessageFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executors;
+
+public class OpenFlowController {
+
+    public static final int MAXIMUM_PACKET_LENGTH = 65535;
+
+    public static final int LENGTH_FIELD_OFFSET = 2;
+    public static final int LENGTH_FIELD_LENGTH = 2;
+
+    public static final int LENGTH_FIELD_MODIFICATION = -4;
+    public static final int CONTROLLER_DEFAULT_PORT = 6633;
+
+    private static final Logger log = LoggerFactory.getLogger(OpenFlowController.class);
+    private static final OFMessageFactory factory = new BasicFactory();
+
+    private final CopyOnWriteArrayList<MessageListener> listeners =
+            new CopyOnWriteArrayList<MessageListener>();
+
+    public void start(int port) {
+        ChannelFactory channelFactory = new NioServerSocketChannelFactory(
+                Executors.newCachedThreadPool(),
+                Executors.newCachedThreadPool()
+        );
+        ServerBootstrap bootstrap = new ServerBootstrap(channelFactory);
+        bootstrap.setPipelineFactory(new OpenFlowServerPipelineFactory(this));
+        bootstrap.setOption("reuseAddress", true);
+        bootstrap.setOption("child.tcpNoDelay", true);
+        bootstrap.setOption("child.keepAlive", true);
+
+        Channel channel = bootstrap.bind(new InetSocketAddress(port));
+        log.info("Controller started: {}", channel.getLocalAddress());
+    }
+
+    public void addMessageListener(MessageListener listener) {
+        //  avoid duplication
+        listeners.addIfAbsent(listener);
+    }
+
+    public void removeMessageListener(MessageListener listener) {
+        listeners.remove(listener);
+    }
+
+    public void invokeMessageListeners(Channel channel, OFMessage msg) {
+        for (MessageListener listener: listeners) {
+            listener.messageReceived(channel, msg);
+        }
+    }
+
+    public static interface MessageListener {
+        public void messageReceived(Channel channel, OFMessage msg);
+    }
+
+    private static class OpenFlowDecoder extends OneToOneDecoder {
+        @Override
+        protected Object decode(ChannelHandlerContext ctx, Channel channel, Object msg) throws Exception {
+            if (!(msg instanceof ChannelBuffer)) {
+                return msg;
+            }
+
+            ChannelBuffer channelBuffer = (ChannelBuffer)msg;
+            ByteBuffer byteBuffer = channelBuffer.toByteBuffer();
+            List<OFMessage> messages = factory.parseMessages(byteBuffer);
+            return messages.get(0);
+        }
+    }
+
+
+    private static class OpenFlowEncoder extends OneToOneEncoder {
+        @Override
+        protected Object encode(ChannelHandlerContext ctx, Channel channel, Object msg) throws Exception {
+            if (msg instanceof OFMessage) {
+                OFMessage response = (OFMessage) msg;
+
+                ByteBuffer buffer = ByteBuffer.allocate(response.getLength());
+                response.writeTo(buffer);
+                buffer.flip();
+                return ChannelBuffers.wrappedBuffer(buffer);
+            }
+
+            return ChannelBuffers.EMPTY_BUFFER;
+        }
+    }
+
+    private static class OpenFlowServerPipelineFactory implements ChannelPipelineFactory {
+        private final OpenFlowController controller;
+
+        public OpenFlowServerPipelineFactory(OpenFlowController controller) {
+            this.controller = controller;
+        }
+
+        public ChannelPipeline getPipeline() throws Exception {
+            ChannelPipeline pipeline = Channels.pipeline();
+
+            pipeline.addLast("framer", new LengthFieldBasedFrameDecoder(
+                    MAXIMUM_PACKET_LENGTH, LENGTH_FIELD_OFFSET, LENGTH_FIELD_LENGTH, LENGTH_FIELD_MODIFICATION, 0));
+            pipeline.addLast("decoder", new OpenFlowDecoder());
+            pipeline.addLast("encoder", new OpenFlowEncoder());
+
+            pipeline.addLast("handler", new OpenFlowSimpleControllerHandler(controller));
+
+            return pipeline;
+        }
+    }
+
+    private static class PacketInIncepter extends SimpleChannelUpstreamHandler{
+    	  private final OpenFlowController controller;
+
+          public PacketInIncepter(OpenFlowController controller) {
+              this.controller = controller;
+          }
+    	
+    	@Override
+          public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+              if (e.getMessage() instanceof OFMessage) {
+                  OFMessage in = (OFMessage)e.getMessage();
+                  
+                  if (in.getType() == OFType.PACKET_IN){
+                      log.info("Handshake completed: switch({})", ctx.getChannel().getRemoteAddress());
+                  }
+                  
+                  switch (in.getType()) {
+                      case HELLO:
+                          ctx.getChannel().write(factory.getMessage(OFType.FEATURES_REQUEST));
+                      case ECHO_REQUEST:
+                          int xid = in.getXid();
+                          OFMessage out = factory.getMessage(OFType.ECHO_REPLY);
+                          out.setXid(xid);
+                          //  replies an ECHO_REPLY message
+                          ctx.getChannel().write(out);
+                          break;
+                      case PACKET_IN:
+                          log.info("Handshake completed: switch({})", ctx.getChannel().getRemoteAddress());
+                          break;
+                      case ERROR:
+                          OFError error = (OFError)in;
+                          log.warn("Error occurred: type({}), switch({})", error.getErrorType(), ctx.getChannel().getRemoteAddress());
+                          break;
+                      default:
+                          controller.invokeMessageListeners(ctx.getChannel(), in);
+                  }
+              }
+    }
+    
+    private static class OpenFlowSimpleControllerHandler extends SimpleChannelUpstreamHandler {
+        private final OpenFlowController controller;
+
+        public OpenFlowSimpleControllerHandler(OpenFlowController controller) {
+            this.controller = controller;
+        }
+
+        @Override
+        public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+            if (e.getMessage() instanceof OFMessage) {
+                OFMessage in = (OFMessage)e.getMessage();
+                log.debug("Message received: message({}), switch({})", in.getType(), ctx.getChannel().getRemoteAddress());
+                switch (in.getType()) {
+                    case HELLO:
+                        ctx.getChannel().write(factory.getMessage(OFType.FEATURES_REQUEST));
+                    case ECHO_REQUEST:
+                        int xid = in.getXid();
+                        OFMessage out = factory.getMessage(OFType.ECHO_REPLY);
+                        out.setXid(xid);
+                        //  replies an ECHO_REPLY message
+                        ctx.getChannel().write(out);
+                        break;
+                    case FEATURES_REPLY:
+                        log.info("Handshake completed: switch({})", ctx.getChannel().getRemoteAddress());
+                        break;
+                    case ERROR:
+                        OFError error = (OFError)in;
+                        log.warn("Error occurred: type({}), switch({})", error.getErrorType(), ctx.getChannel().getRemoteAddress());
+                        break;
+                    default:
+                        controller.invokeMessageListeners(ctx.getChannel(), in);
+                }
+            }
+        }
+
+        @Override
+        public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) throws Exception {
+            log.warn("Exception occurred: {}", e.getCause());
+            ctx.getChannel().close();
+        }
+
+        @Override
+        public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
+            OFMessage out = factory.getMessage(OFType.HELLO);
+            ctx.getChannel().write(out);
+        }
+
+        @Override
+        public void channelDisconnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
+            log.info("Switch disconnected (Switch: {})", ctx.getChannel().getRemoteAddress());
+        }
+    }
+
+    public static void main(String[] args) {
+        MessageListener hub = new MessageListener() {
+            public void messageReceived(Channel channel, OFMessage msg) {
+                if (msg.getType() == OFType.PACKET_IN) {
+                    OFPacketIn in = (OFPacketIn)msg;
+                    OFPacketOut out = (OFPacketOut)factory.getMessage(OFType.PACKET_OUT);
+                    out.setBufferId(in.getBufferId());
+                    out.setInPort(in.getInPort());
+
+                    OFActionOutput action = new OFActionOutput();
+                    action.setPort(OFPort.OFPP_FLOOD.getValue());
+                    out.setActions(Collections.singletonList((OFAction)action));
+                    out.setActionsLength((short)OFActionOutput.MINIMUM_LENGTH);
+
+                    if (in.getBufferId() == 0xffffffff) {
+                        byte[] packetData = in.getPacketData();
+                        out.setLength((short)(OFPacketOut.MINIMUM_LENGTH + out.getActionsLength() + packetData.length));
+                        out.setPacketData(packetData);
+                    } else {
+                        out.setLength((short)(OFPacketOut.MINIMUM_LENGTH + out.getActionsLength()));
+                    }
+
+                    channel.write(out);
+                    log.debug("Message sent: message({}), switch({})", out.getType(), channel.getRemoteAddress());
+                }
+            }
+        };
+
+        OpenFlowController controller = new OpenFlowController();
+        controller.addMessageListener(hub);
+
+        int port = CONTROLLER_DEFAULT_PORT;
+        if (args.length >= 1) {
+            port = Integer.parseInt(args[0]);
+        }
+        controller.start(port);
+    }
+}

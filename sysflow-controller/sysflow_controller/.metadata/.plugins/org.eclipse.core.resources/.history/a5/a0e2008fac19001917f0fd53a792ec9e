@@ -1,0 +1,21 @@
+package sysflow_controller;
+
+/*controller-to-DP message: hello*/
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+public class sf_info_request_message  extends sf_message implements Cloneable{
+	
+	public sf_info_request_message(){
+		type = sf_message_type.SFP_INFO_REQUEST;
+	}
+	
+	public  byte[] serialize() throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream( );
+		
+		out.write(super.serialize());
+	   
+		return out.toByteArray();
+	}
+}

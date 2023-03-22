@@ -1,0 +1,56 @@
+package sysflow_controller;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.Arrays;
+
+public class sf_action implements Cloneable, Serializable {
+	int action_type;
+	int len;
+	byte[] action_code;	/*parameters for sysflow action if necessary*/
+	
+	//sysflow action type
+	public static final int 		SYSFLOW_ACTION_UNKOWN = 0;
+	public static final int		SYSFLOW_ACTION_ALLOW = 1; 		
+	public static final int 	    SYSFLOW_ACTION_DENY = 2; 		
+	public static final int 	    SYSFLOW_ACTION_REDIRECT = 3; 		
+	public static final int 	    SYSFLOW_ACTION_QRAUNTINE = 4;	
+	public static final int 	    SYSFLOW_ACTION_TAG = 5; 		
+	public static final int 	    SYSFLOW_ACTTION_ISOLATION = 6;
+	public static final int 	    SYSFLOW_ACTION_MIGRATION = 7;
+	public static final int 	    SYSFLOW_ACTION_LOG = 8; 
+	public static final int 	    SYSFLOW_ACTION_ALERT = 9; 
+	public static final int 	    SYSFLOW_ACTION_MESSAGE = 10; 
+	public static final int 	    SYSFLOW_ACTION_NEXTMODULE = 11;
+	
+	public sf_action(int type, byte[] par, int par_len){
+		this.action_type = type;
+		this.len = par_len + Integer.SIZE * 2;
+		
+		//TODO: add exception handling
+		if (par == null || par_len == 0){
+			return;
+		}
+				
+		this.action_code = Arrays.copyOf(par, par_len);
+	}
+	
+	public int getLength(){
+		return this.len;
+	}
+	
+	public String toString(){
+		return "Action type: " + action_type + ", action len: " + len;
+	}
+	
+	public  byte[] serialize() throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream(this.len);
+		
+		out.write(this.action_type);
+		out.write(this.len);
+		out.write(this.action_code);
+	   
+		return out.toByteArray();
+	}
+}

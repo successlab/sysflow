@@ -1,0 +1,102 @@
+package sysflow_controller;
+
+/*controller-to-DP message: hello*/
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.Arrays;
+
+
+public class sf_message_flow_mod  extends sf_message implements Cloneable{
+	
+	/*sysflow flow mod type*/
+	private static final int 	SFPFM_ADD = 0;
+	private static final int	SFPFM_REMOVE = 1;
+	private static final int	SFPFM_UPDATE = 2;
+	
+	int src_type;
+	int src_len;
+	
+	//src id (use 20 bytes to store)
+	int pid;
+	char[] src_name;
+	
+	int dst_len;
+	int dst_type;
+	
+	//dst id (use 20 bytes to store)
+	int uuid;
+	int inode_num;
+	char[] dst_name;
+	
+	//mask for 3-tuple(src, dst, opcode), TODO: finer-grained definition
+	int mask;	
+	int opcode;
+	
+	int action_len;
+	sf_action[] actions;	//the maximum action is 5
+	
+	
+	public sf_message_flow_mod(int mask, int opcode){
+		type = sf_type_message.SFP_FLOW_MOD;
+		
+		this.mask = mask;
+		this.opcode = opcode;
+		
+		src_name = new char[20];
+		dst_name = new char[20];
+		
+		action_len = 0;
+		actions = new sf_action[5];
+	}
+	
+	public void setSource(int src_type, int src_len, int pid, char[] name){
+		this.src_type = src_type;
+		this.src_len = src_len;
+		
+		this.pid = pid;
+		
+		//TODO: add exception handling
+		if (name == null){
+			return;
+		}
+		
+		this.src_name = Arrays.copyOf(name, 20);
+	}
+	
+	public void setDestination(int dst_type, int dst_len, int uuid, int inode, char[] name){
+		type = sf_type_message.SFP_FLOW_MOD;
+		
+		this.dst_type = dst_type;
+		this.dst_len = dst_len;
+		
+		this.uuid = uuid;
+		this.inode_num = inode;
+		
+		//TODO: add exception handling
+		if (name == null){
+			return;
+		}
+				
+		this.dst_name = Arrays.copyOf(name, 20);
+	}
+	
+	public void addAction(sf_action action){
+		if (len >= 5){
+			return;
+		}
+		
+		this.actions[len++] = action; 
+	}
+	
+	public  byte[] serialize() throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream( );
+		
+		out.write(super.serialize());
+		out.write()
+		
+		
+		return out.toByteArray();
+	}
+}

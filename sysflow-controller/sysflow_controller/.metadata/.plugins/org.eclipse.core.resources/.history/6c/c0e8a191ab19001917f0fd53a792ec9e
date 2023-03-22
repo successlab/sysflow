@@ -1,0 +1,22 @@
+package sysflow_controller;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+public class sf_hello_message  extends sf_message implements Cloneable{
+	byte type;
+	
+	public sf_hello_message(){
+		type = sf_message_type.SFP_HELLO;
+	}
+	
+	public  byte[] serialize() throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream( );
+		
+		out.write(super.serialize());
+		out.write(this.triggerType);
+		out.write(this.interval);
+	   
+		return out.toByteArray();
+	}
+}

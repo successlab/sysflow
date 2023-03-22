@@ -1,0 +1,72 @@
+package sysflow_controller.core;
+
+
+import java.util.logging.Logger;
+
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelPipeline;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.ssl.SslHandler;
+import io.netty.handler.timeout.IdleStateHandler;
+import io.netty.handler.timeout.ReadTimeoutHandler;
+import io.netty.util.concurrent.EventExecutorGroup;
+
+/**
+ * Creates a ChannelInitializer for a server-side openflow channel.
+ */
+public class SFChannelInitializer
+    extends ChannelInitializer<SocketChannel> {
+
+	private final Logger logger = Logger.getLogger("SFChannelInitializer");
+
+
+   // private final SSLContext sslContext;
+    protected Controller controller;
+    protected EventExecutorGroup pipelineExecutor;
+
+    public SFChannelInitializer(Controller controller,
+                                   EventExecutorGroup pipelineExecutor) {
+        super();
+        this.controller = controller;
+        this.pipelineExecutor = pipelineExecutor;
+      //  this.sslContext = sslContext;
+    }
+
+    @Override
+    protected void initChannel(SocketChannel ch) throws Exception {
+
+        SFChannelHandler handler = new SFChannelHandler(controller);
+
+        ChannelPipeline pipeline = ch.pipeline();
+        if (sslContext != null) {
+            log.info("OpenFlow SSL enabled.");
+            SSLEngine sslEngine = sslContext.createSSLEngine();
+
+            sslEngine.setNeedClientAuth(true);
+            sslEngine.setUseClientMode(false);
+            sslEngine.setEnabledProtocols(sslEngine.getSupportedProtocols());
+            sslEngine.setEnabledCipherSuites(sslEngine.getSupportedCipherSuites());
+            sslEngine.setEnableSessionCreation(true);
+
+            SslHandler sslHandler = new SslHandler(sslEngine);
+            pipeline.addLast("ssl", sslHandler);
+        } else {
+            log.debug("OpenFlow SSL disabled.");
+        }
+        pipeline.addLast("ofmessageencoder", OFMessageEncoder.getInstance());
+        pipeline.addLast("ofmessagedecoder", OFMessageDecoder.getInstance());
+
+        pipeline.addLast("idle", new IdleStateHandler(20, 25, 0));
+        pipeline.addLast("timeout", new ReadTimeoutHandler(30));
+
+        // XXX S ONOS: was 15 increased it to fix Issue #296
+        pipeline.addLast("handshaketimeout",
+                         new HandshakeTimeoutHandler(handler, 60));
+        // ExecutionHandler equivalent now part of Netty core
+        if (pipelineExecutor != null) {
+            pipeline.addLast(pipelineExecutor, "handler", handler);
+        } else {
+            pipeline.addLast("handler", handler);
+        }
+    }
+}

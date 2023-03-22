@@ -1,0 +1,138 @@
+package sysflow_controller.test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
+import java.util.logging.Logger;
+import java.nio.ByteBuffer;
+import java.util.TimeZone;
+
+import sysflow_controller.sf_type_OS;
+
+/**
+ * Represents the Host Information Request message that can be sent to the server. This is the
+ * java form of the message.
+ */
+public class InfoReplyMessage extends Message {
+	
+	//host profile received from data plane
+	private byte[] hostID; //use 6 bytes mac address
+	private int osType;
+	private int coreNum; 
+	
+	
+	public InfoReplyMessage(){
+		super();
+		
+		hostID = new byte[6];
+		osType = 0;
+		coreNum = 0;
+	}
+	
+	
+	
+    @Override
+    public String toString() {
+        return "Host Information Reply Message";
+    }
+    
+	@Override
+	public int length() {
+		return 3 * Integer.BYTES;
+	}
+	
+	/**
+	 * retrieve the core number from the info reply message		
+	 * @return the number of CPU cores
+	 */
+	public int getCoreNum(){
+		return this.coreNum;
+	}
+	
+	/**
+	 * retrieve the operating system type from the info reply message		
+	 * @return the type of the operating system
+	 */
+	public int getOSType(){
+		return this.osType;
+	}
+	
+	/**
+	 * retrieve the host ID (mac address) in byte array format from the info reply message
+	 * @return the byte array of host ID (mac address)
+	 */
+	public byte[] getHostID(){
+		return this.hostID;
+	}
+	
+	
+    /**	
+     * @param buffer the message buffer
+     * @return the length of the message
+     */
+    public static int lenFromMsg(ByteBuffer buffer){
+    	int len = buffer.getInt();
+    	return len;
+    }
+    
+    /**	
+     * @param buffer the message buffer
+     * @return the type of the message
+     */
+    public static int typeFromMsg(ByteBuffer buffer){
+    	int type = buffer.getInt(3);
+    	return type;
+    }
+    
+    /**	
+     * @param buffer the message buffer
+     * @return the transmission id of the message
+     */
+    public static int xidFromMsg(ByteBuffer buffer){
+    	int xid = buffer.getInt(7);
+    	return xid;
+    }
+    
+    /**
+     * 
+     * @param buffer the message buffer
+     * @return the host ID of the message
+     */
+    public static byte[] hostIDFromMsg(ByteBuffer buffer){
+    	byte[] hostID = new byte[6];
+    	buffer.get(hostID, 11, 6);
+    	return hostID;
+    }
+    
+    /**	
+     * @param buffer the message buffer
+     * @return the transmission id of the message
+     */
+    public static int osTypeFromMsg(ByteBuffer buffer){
+    	int osType = buffer.getInt(17);
+    	return osType;
+    }
+	
+    /** converts the raw message into this message object */
+    public void fromBytes(ByteBuffer message) {
+    	this.len = lenFromMsg(message);
+    	this.type = typeFromMsg(message);
+    	this.xid = xidFromMsg(message);
+    }
+    
+    /** converts the message into raw bytes. 
+     * @throws IOException */
+    public void toBytes(ByteBuffer buffer) throws IOException {
+        bytesToMsg(buffer, this.serialize());
+    }
+    
+    public  byte[] serialize() throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream( );
+		
+		out.write(super.serialize());
+	   
+		return out.toByteArray();
+	}
+
+}

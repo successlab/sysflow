@@ -1,0 +1,11 @@
+package sysflow_controller;
+
+/*bitwise mask for sysflow key, 
+8th digit for src, 7th for dst, 6th for opcode,
+rest digits are reserved*/
+
+public class sf_type_mask {
+	public static final byte SFP_MATCH_PID = 0;
+	public static final byte SFP_MATCH_NAME = 1;
+	public static final byte SFP_MATCH_REGEX = 2;		
+}

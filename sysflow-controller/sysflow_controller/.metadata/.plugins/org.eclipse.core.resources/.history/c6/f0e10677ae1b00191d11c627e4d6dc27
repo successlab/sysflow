@@ -1,0 +1,6 @@
+package sysflow_controller.test;
+public class sf_type_match {
+	public static final byte SFP_MATCH_PID = 0;
+	public static final byte SFP_MATCH_NAME = 1;
+	public static final byte SFP_MATCH_REGEX = 2;		
+}

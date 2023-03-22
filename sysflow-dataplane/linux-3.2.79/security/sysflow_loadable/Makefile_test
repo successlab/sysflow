@@ -1,0 +1,9 @@
+obj-m += sysflow_test_ko.o
+sysflow_test_ko-objs := ../sysflow.o test.o 
+KBUILD_CFLAGS += -w
+
+all:
+	make -C  /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+
+clean:
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean

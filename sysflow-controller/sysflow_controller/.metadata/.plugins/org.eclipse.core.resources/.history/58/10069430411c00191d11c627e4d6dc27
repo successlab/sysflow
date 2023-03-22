@@ -1,0 +1,205 @@
+package sysflow_controller.test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
+import java.util.logging.Logger;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import java.util.TimeZone;
+
+import sysflow_controller.sf_action;
+import sysflow_controller.sf_type_message;
+import sysflow_controller.test.testController.HostState;
+
+/**
+ * Represents the Flow Modification message. This is the
+ * java form of the message.
+ */
+
+public class FlowModMessage extends Message {
+
+	int src_type;
+	int src_len;
+	
+	//src id (use 20 bytes to store)
+	int pid;
+	char[] src_name = null;
+	
+	int dst_type;
+	int dst_len;
+	
+	//dst id (use 20 bytes to store)
+	int uuid;
+	int inode_num;
+	char[] dst_name = null;
+	
+	//mask for 3-tuple(src, dst, opcode), TODO: finer-grained definition
+	int mask;	
+	int opcode;
+	
+	int action_len; // the number of actions
+	sf_action[] actions = null;	//the maximum action is 5
+	
+		
+	/*sysflow flow mod type*/
+	private static final int 	SFPFM_ADD = 0;
+	private static final int	SFPFM_REMOVE = 1;
+	private static final int	SFPFM_UPDATE = 2;
+	
+	
+	public FlowModMessage(int mask, int opcode){
+		this.type = sf_type_message.SFP_FLOW_MOD;
+		this.xid = 0;
+		
+		this.mask = mask;
+		this.opcode = opcode;
+		
+		src_name = new char[20];
+		dst_name = new char[20];
+		
+		action_len = 0;
+		actions = new sf_action[5];
+		
+		this.len = this.length();
+	}
+	
+    @Override
+    public String toString() {
+        return "Flow Modification Message";
+    }
+    
+	@Override
+	public int length() {
+		int len = 0;
+		
+		//add the header length 
+		len += 3 * Integer.BYTES;
+		
+		//add the source entity
+		len += 3 * Integer.BYTES + 10 * Character.BYTES;
+		
+		//add the destination entity
+		len += 4 * Integer.BYTES + 10 * Character.BYTES;
+		
+		//add the mask and opcode
+		len += 2 * Integer.BYTES;
+		
+		//add the action length
+		for (int i = 0; i < action_len; i++){
+			len += actions[i].getLength();
+		}
+		
+		return len;
+	}
+	
+	public void setSource(int src_type, int src_len, int pid, char[] name){
+		this.src_type = src_type;
+		this.src_len = src_len;
+		
+		this.pid = pid;
+		
+		//TODO: add exception handling
+		if (name == null){
+			return;
+		}
+		
+		this.src_name = Arrays.copyOf(name, 20);
+	}
+	
+	public void setDestination(int dst_type, int dst_len, int uuid, int inode, char[] name){
+		type = sf_type_message.SFP_FLOW_MOD;
+		
+		this.dst_type = dst_type;
+		this.dst_len = dst_len;
+		
+		this.uuid = uuid;
+		this.inode_num = inode;
+		
+		//TODO: add exception handling
+		if (name == null){
+			return;
+		}
+				
+		this.dst_name = Arrays.copyOf(name, 20);
+	}
+	
+	public void addAction(sf_action action){
+		if (len >= 5){
+			return;
+		}
+		
+		this.actions[len++] = action; 
+		
+		//adjust the len
+		this.len = this.length();
+	}
+    
+
+    /** converts the raw message into this message object */
+    public void fromBytes(ByteBuffer message) {
+    	//TODO no need for such function since the controller does not parse flow-mod message
+    }
+    
+    
+    /** converts the message into raw bytes. 
+     * @throws IOException */
+    public void toBytes(ByteBuffer buffer) throws IOException {
+        bytesToMsg(buffer, this.serialize());
+    }
+    
+    public String toString(){
+    	String msg;
+    	
+    	msg += "Sysflow flow mod message\n";
+    	msg += "len: " + this.len + "\n";
+    	msg += "xid: " + this.xid + "\n";
+    	msg += "src_type: " + this.src_type + "\n";
+    	msg += "src_len: " + this.src_len + "\n";
+    	msg += "pid:" + this.pid + "\n";
+    	msg += "src_name:" + this.src_name.toString() + "\n";
+    	msg += "dst_type: " + this.dst_type + "\n";
+    	msg += "dst_len: " + this.dst_len + "\n";
+    	msg += "uuid: " + this.uuid + "\n";
+    	msg += "inode: " + this.inode + "\n";
+    	msg += "dst_name:" + this.dst_name.toString() + "\n";
+    }
+    
+    public  byte[] serialize() throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream( );
+		
+		out.write(super.serialize());
+		
+		out.write(intToByteArray(this.src_type));
+		out.write(intToByteArray(this.src_len));
+		out.write(intToByteArray(this.pid));
+		byte[] srcName = new byte[20];
+		for (int i = 0; i < 20; i++) {
+			srcName[i] = (byte) src_name[i];
+		}
+		out.write(srcName);
+		
+		out.write(intToByteArray(this.dst_type));
+		out.write(intToByteArray(this.dst_len));
+		out.write(intToByteArray(this.uuid));
+		out.write(intToByteArray(this.inode_num));
+		byte[] dstName = new byte[20];
+		for (int i = 0; i < 20; i++) {
+			srcName[i] = (byte) dst_name[i];
+		}
+		out.write(dstName);
+		
+		out.write(intToByteArray(this.mask));
+		out.write(intToByteArray(this.opcode));
+		
+		out.write(intToByteArray(action_len));
+		for (int i = 0; i < action_len; i++){
+			out.write(actions[i].serialize());
+		}
+		
+		return out.toByteArray();
+	}
+
+
+}

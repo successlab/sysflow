@@ -1,0 +1,5 @@
+package sysflow_controller;
+
+public class sf_hello_message  extends FCAction implements Cloneable{
+
+}

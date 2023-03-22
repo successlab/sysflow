@@ -1,0 +1,252 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+EVALUATE_PERFORMANCE	sample.c	588;"	d	file:
+HTNode	sample.c	/^typedef struct HTNode {$/;"	s	file:
+HTNode	sample.c	/^} HTNode;$/;"	t	typeref:struct:HTNode	file:
+HT_ERROR	sample.c	67;"	d	file:
+HT_FOUND	sample.c	74;"	d	file:
+HT_GROWTH_FACTOR	sample.c	64;"	d	file:
+HT_INITIALIZER	sample.c	76;"	d	file:
+HT_INSERTED	sample.c	71;"	d	file:
+HT_LOAD_FACTOR	sample.c	61;"	d	file:
+HT_LOOKUP_AS	sample.c	124;"	d	file:
+HT_MINIMUM_CAPACITY	sample.c	60;"	d	file:
+HT_MINIMUM_THRESHOLD	sample.c	62;"	d	file:
+HT_NOT_FOUND	sample.c	73;"	d	file:
+HT_SHRINK_THRESHOLD	sample.c	65;"	d	file:
+HT_SUCCESS	sample.c	68;"	d	file:
+HT_UPDATED	sample.c	70;"	d	file:
+HashTable	sample.c	/^typedef struct HashTable {$/;"	s	file:
+HashTable	sample.c	/^} HashTable;$/;"	t	typeref:struct:HashTable	file:
+NIPQUAD	sample.c	579;"	d	file:
+NIPQUAD_FMT	sample.c	584;"	d	file:
+S2OS_FILE_OP_READ	sample.c	616;"	d	file:
+S2OS_FILE_OP_WRITE	sample.c	615;"	d	file:
+S2OS_MAX_FILE_NAME	sample.c	609;"	d	file:
+S2OS_MAX_PROC_NAME	sample.c	608;"	d	file:
+SAMPLE_DBG	sample.c	589;"	d	file:
+_ht_adjust_capacity	sample.c	/^int _ht_adjust_capacity(HashTable* table) {$/;"	f
+_ht_allocate	sample.c	/^int _ht_allocate(HashTable* table, size_t capacity) {$/;"	f
+_ht_create_node	sample.c	/^_ht_create_node(HashTable* table, void* key, void* value, HTNode* next) {$/;"	f
+_ht_default_compare	sample.c	/^int _ht_default_compare(void* first_key, void* second_key, size_t key_size) {$/;"	f
+_ht_default_hash	sample.c	/^size_t _ht_default_hash(void* raw_key, size_t key_size) {$/;"	f
+_ht_destroy_node	sample.c	/^void _ht_destroy_node(HTNode* node) {$/;"	f
+_ht_equal	sample.c	/^bool _ht_equal(const HashTable* table, void* first_key, void* second_key) {$/;"	f
+_ht_hash	sample.c	/^size_t _ht_hash(const HashTable* table, void* key) {$/;"	f
+_ht_int_swap	sample.c	/^void _ht_int_swap(size_t* first, size_t* second) {$/;"	f
+_ht_pointer_swap	sample.c	/^void _ht_pointer_swap(void** first, void** second) {$/;"	f
+_ht_push_front	sample.c	/^int _ht_push_front(HashTable* table, size_t index, void* key, void* value) {$/;"	f
+_ht_rehash	sample.c	/^void _ht_rehash(HashTable* table, HTNode** old, size_t old_capacity) {$/;"	f
+_ht_resize	sample.c	/^int _ht_resize(HashTable* table, size_t new_capacity) {$/;"	f
+_ht_should_grow	sample.c	/^bool _ht_should_grow(HashTable* table) {$/;"	f
+_ht_should_shrink	sample.c	/^bool _ht_should_shrink(HashTable* table) {$/;"	f
+capacity	sample.c	/^	size_t capacity;$/;"	m	struct:HashTable	file:
+compare	sample.c	/^	comparison_t compare;$/;"	m	struct:HashTable	file:
+comparison_t	sample.c	/^typedef int (*comparison_t)(void*, void*, size_t);$/;"	t	file:
+count	sample.c	/^static unsigned long long count = 0;$/;"	v	file:
+gLsmFunc	sample.c	/^EXPORT_SYMBOL_GPL(gLsmFunc);$/;"	v
+gLsmFunc	sample.c	/^struct s2os_lsm_func_struct gLsmFunc;$/;"	v	typeref:struct:s2os_lsm_func_struct
+gStatus	sample.c	/^EXPORT_SYMBOL_GPL(gStatus);$/;"	v
+gStatus	sample.c	/^struct s2os_global_status_struct gStatus;$/;"	v	typeref:struct:s2os_global_status_struct
+gSysflowFunc	sample.c	/^EXPORT_SYMBOL_GPL(gSysflowFunc);$/;"	v
+gSysflowFunc	sample.c	/^struct s2os_sysflow_func_struct gSysflowFunc;$/;"	v	typeref:struct:s2os_sysflow_func_struct
+hash	sample.c	/^	hash_t hash;$/;"	m	struct:HashTable	file:
+hash_t	sample.c	/^typedef size_t (*hash_t)(void*, size_t);$/;"	t	file:
+hash_uuid	sample.c	/^static inline uint32_t hash_uuid(uint8_t *s_uuid) { $/;"	f	file:
+ht_clear	sample.c	/^int ht_clear(HashTable* table) {$/;"	f
+ht_const_lookup	sample.c	/^const void* ht_const_lookup(const HashTable* table, void* key) {$/;"	f
+ht_contains	sample.c	/^int ht_contains(HashTable* table, void* key) {$/;"	f
+ht_copy	sample.c	/^int ht_copy(HashTable* first, HashTable* second) {$/;"	f
+ht_destroy	sample.c	/^int ht_destroy(HashTable* table) {$/;"	f
+ht_erase	sample.c	/^int ht_erase(HashTable* table, void* key) {$/;"	f
+ht_insert	sample.c	/^int ht_insert(HashTable* table, void* key, void* value) {$/;"	f
+ht_is_empty	sample.c	/^int ht_is_empty(HashTable* table) {$/;"	f
+ht_is_initialized	sample.c	/^bool ht_is_initialized(HashTable* table) {$/;"	f
+ht_lookup	sample.c	/^void* ht_lookup(HashTable* table, void* key) {$/;"	f
+ht_move	sample.c	/^int ht_move(HashTable* first, HashTable* second) {$/;"	f
+ht_reserve	sample.c	/^int ht_reserve(HashTable* table, size_t minimum_capacity) {$/;"	f
+ht_setup	sample.c	/^int ht_setup(HashTable* table,$/;"	f
+ht_swap	sample.c	/^int ht_swap(HashTable* first, HashTable* second) {$/;"	f
+key	sample.c	/^	void* key;$/;"	m	struct:HTNode	file:
+key_size	sample.c	/^	size_t key_size;$/;"	m	struct:HashTable	file:
+new_counter	sample.c	/^static long old_counter, new_counter;$/;"	v	file:
+new_time	sample.c	/^static struct timespec old_time, new_time;$/;"	v	typeref:struct:	file:
+next	sample.c	/^	struct HTNode* next;$/;"	m	struct:HTNode	typeref:struct:HTNode::HTNode	file:
+nodes	sample.c	/^	HTNode** nodes;$/;"	m	struct:HashTable	file:
+old_counter	sample.c	/^static long old_counter, new_counter;$/;"	v	file:
+old_time	sample.c	/^static struct timespec old_time, new_time;$/;"	v	typeref:struct:timespec	file:
+s2os_bprm_committed_creds	sample.c	/^static void s2os_bprm_committed_creds(struct linux_binprm *bprm)$/;"	f	file:
+s2os_bprm_committing_creds	sample.c	/^static void s2os_bprm_committing_creds(struct linux_binprm *bprm)$/;"	f	file:
+s2os_bprm_secureexec	sample.c	/^static int s2os_bprm_secureexec(struct linux_binprm *bprm)$/;"	f	file:
+s2os_bprm_set_creds	sample.c	/^static int s2os_bprm_set_creds(struct linux_binprm *bprm)$/;"	f	file:
+s2os_capable	sample.c	/^static	int s2os_capable(const struct cred *cred, struct user_namespace *ns,$/;"	f	file:
+s2os_capget	sample.c	/^static int s2os_capget(struct task_struct *target, kernel_cap_t *effective,$/;"	f	file:
+s2os_capset	sample.c	/^static int s2os_capset(struct cred *new, const struct cred *old,$/;"	f	file:
+s2os_cred_alloc_blank	sample.c	/^static int s2os_cred_alloc_blank(struct cred *cred, gfp_t gfp)$/;"	f	file:
+s2os_cred_free	sample.c	/^static void s2os_cred_free(struct cred *cred)$/;"	f	file:
+s2os_cred_prepare	sample.c	/^static int s2os_cred_prepare(struct cred *new, const struct cred *old,$/;"	f	file:
+s2os_cred_transfer	sample.c	/^static void s2os_cred_transfer(struct cred *new, const struct cred *old)$/;"	f	file:
+s2os_d_instantiate	sample.c	/^static void s2os_d_instantiate(struct dentry *dentry, struct inode *inode)$/;"	f	file:
+s2os_dentry_open	sample.c	/^static int s2os_dentry_open(struct file *file, const struct cred *cred)$/;"	f	file:
+s2os_file_alloc_security	sample.c	/^static int s2os_file_alloc_security(struct file *file)$/;"	f	file:
+s2os_file_fcntl	sample.c	/^static int s2os_file_fcntl(struct file *file, unsigned int cmd,$/;"	f	file:
+s2os_file_free_security	sample.c	/^static void s2os_file_free_security(struct file *file)$/;"	f	file:
+s2os_file_ioctl	sample.c	/^static int s2os_file_ioctl(struct file *file, unsigned int cmd,$/;"	f	file:
+s2os_file_lock	sample.c	/^static int s2os_file_lock(struct file *file, unsigned int cmd)$/;"	f	file:
+s2os_file_mmap	sample.c	/^static int s2os_file_mmap(struct file *file, unsigned long reqprot,$/;"	f	file:
+s2os_file_mprotect	sample.c	/^static int s2os_file_mprotect(struct vm_area_struct *vma,$/;"	f	file:
+s2os_file_permission	sample.c	/^static int s2os_file_permission(struct file *file, int mask)$/;"	f	file:
+s2os_file_receive	sample.c	/^static int s2os_file_receive(struct file *file)$/;"	f	file:
+s2os_file_send_sigiotask	sample.c	/^static int s2os_file_send_sigiotask(struct task_struct *tsk,$/;"	f	file:
+s2os_file_set_fowner	sample.c	/^static int s2os_file_set_fowner(struct file *file)$/;"	f	file:
+s2os_getprocattr	sample.c	/^static int s2os_getprocattr(struct task_struct *p,$/;"	f	file:
+s2os_inet_conn_established	sample.c	/^static void s2os_inet_conn_established(struct sock *sk, struct sk_buff *skb)$/;"	f	file:
+s2os_inet_conn_request	sample.c	/^static int s2os_inet_conn_request(struct sock *sk, struct sk_buff *skb,$/;"	f	file:
+s2os_inet_csk_clone	sample.c	/^static void s2os_inet_csk_clone(struct sock *newsk,$/;"	f	file:
+s2os_init	sample.c	/^void s2os_init(void)$/;"	f
+s2os_innet_conn_established	sample.c	/^static int s2os_innet_conn_established(struct sock *sk, struct sk_buff *skb)$/;"	f	file:
+s2os_innet_conn_request	sample.c	/^static int s2os_innet_conn_request(struct sock *sk, struct sk_buff *skb, struct request_sock *req) $/;"	f	file:
+s2os_inode_alloc_security	sample.c	/^static int s2os_inode_alloc_security(struct inode *inode)$/;"	f	file:
+s2os_inode_create	sample.c	/^static int s2os_inode_create(struct inode *dir, struct dentry *dentry, int mask)$/;"	f	file:
+s2os_inode_follow_link	sample.c	/^static int s2os_inode_follow_link(struct dentry *dentry, struct nameidata *nameidata)$/;"	f	file:
+s2os_inode_free_security	sample.c	/^static void s2os_inode_free_security(struct inode *inode)$/;"	f	file:
+s2os_inode_getattr	sample.c	/^static int s2os_inode_getattr(struct vfsmount *mnt, struct dentry *dentry)$/;"	f	file:
+s2os_inode_getsecctx	sample.c	/^static int s2os_inode_getsecctx(struct inode *inode, void **ctx, u32 *ctxlen)$/;"	f	file:
+s2os_inode_getsecid	sample.c	/^static void s2os_inode_getsecid(const struct inode *inode, u32 *secid)$/;"	f	file:
+s2os_inode_getsecurity	sample.c	/^static int s2os_inode_getsecurity(const struct inode *inode, const char *name, void **buffer, bool alloc)$/;"	f	file:
+s2os_inode_getxattr	sample.c	/^static int s2os_inode_getxattr(struct dentry *dentry, const char *name)$/;"	f	file:
+s2os_inode_init_security	sample.c	/^static int s2os_inode_init_security(struct inode *inode, struct inode *dir,$/;"	f	file:
+s2os_inode_link	sample.c	/^static int s2os_inode_link(struct dentry *old_dentry, struct inode *dir, struct dentry *new_dentry)$/;"	f	file:
+s2os_inode_listsecurity	sample.c	/^static int s2os_inode_listsecurity(struct inode *inode, char *buffer, size_t buffer_size)$/;"	f	file:
+s2os_inode_listxattr	sample.c	/^static int s2os_inode_listxattr(struct dentry *dentry)$/;"	f	file:
+s2os_inode_mkdir	sample.c	/^static int s2os_inode_mkdir(struct inode *dir, struct dentry *dentry, int mask)$/;"	f	file:
+s2os_inode_mknod	sample.c	/^static int s2os_inode_mknod(struct inode *dir, struct dentry *dentry, int mode, dev_t dev)$/;"	f	file:
+s2os_inode_notifysecctx	sample.c	/^static int s2os_inode_notifysecctx(struct inode *inode, void *ctx, u32 ctxlen)$/;"	f	file:
+s2os_inode_permission	sample.c	/^static int s2os_inode_permission(struct inode *inode, int mask)$/;"	f	file:
+s2os_inode_post_setxattr	sample.c	/^static void s2os_inode_post_setxattr(struct dentry *dentry, const char *name,$/;"	f	file:
+s2os_inode_readlink	sample.c	/^static int s2os_inode_readlink(struct dentry *dentry)$/;"	f	file:
+s2os_inode_removexattr	sample.c	/^static int s2os_inode_removexattr(struct dentry *dentry, const char *name)$/;"	f	file:
+s2os_inode_rename	sample.c	/^static int s2os_inode_rename(struct inode *old_inode, struct dentry *old_dentry,$/;"	f	file:
+s2os_inode_rmdir	sample.c	/^static int s2os_inode_rmdir(struct inode *dir, struct dentry *dentry)$/;"	f	file:
+s2os_inode_setattr	sample.c	/^static int s2os_inode_setattr(struct dentry *dentry, struct iattr *iattr)$/;"	f	file:
+s2os_inode_setsecctx	sample.c	/^static int s2os_inode_setsecctx(struct dentry *dentry, void *ctx, u32 ctxlen)$/;"	f	file:
+s2os_inode_setsecurity	sample.c	/^static int s2os_inode_setsecurity(struct inode *inode, const char *name,$/;"	f	file:
+s2os_inode_setxattr	sample.c	/^static int s2os_inode_setxattr(struct dentry *dentry, const char *name,$/;"	f	file:
+s2os_inode_symlink	sample.c	/^static int s2os_inode_symlink(struct inode *dir, struct dentry *dentry, const char *name)$/;"	f	file:
+s2os_inode_unlink	sample.c	/^static int s2os_inode_unlink(struct inode *dir, struct dentry *dentry)$/;"	f	file:
+s2os_inovke_lsm_func	sample.c	/^EXPORT_SYMBOL_GPL(s2os_inovke_lsm_func);$/;"	v
+s2os_inovke_lsm_func	sample.c	/^int s2os_inovke_lsm_func(void* pData)$/;"	f
+s2os_invoke_sysflow_func	sample.c	/^inline int s2os_invoke_sysflow_func(void* pData, void* retData)$/;"	f
+s2os_ipc_getsecid	sample.c	/^static void s2os_ipc_getsecid(struct kern_ipc_perm *ipcp, u32 *secid)$/;"	f	file:
+s2os_ipc_permission	sample.c	/^static int s2os_ipc_permission(struct kern_ipc_perm *ipcp, short flag)$/;"	f	file:
+s2os_kernel_act_as	sample.c	/^static int s2os_kernel_act_as(struct cred *new, u32 secid)$/;"	f	file:
+s2os_kernel_create_files_as	sample.c	/^static int s2os_kernel_create_files_as(struct cred *new, struct inode *inode)$/;"	f	file:
+s2os_kernel_module_request	sample.c	/^static int s2os_kernel_module_request(char *kmod_name)$/;"	f	file:
+s2os_mod_init	sample.c	/^security_initcall(s2os_mod_init);$/;"	v
+s2os_mod_init	sample.c	/^static __init int s2os_mod_init(void)$/;"	f	file:
+s2os_mount	sample.c	/^static int s2os_mount(char *dev_name, struct path *path, char *type, unsigned long flags, void *data)$/;"	f	file:
+s2os_msg_msg_alloc_security	sample.c	/^static int s2os_msg_msg_alloc_security(struct msg_msg *msg)$/;"	f	file:
+s2os_msg_msg_free_security	sample.c	/^static void s2os_msg_msg_free_security(struct msg_msg *msg)$/;"	f	file:
+s2os_msg_queue_alloc_security	sample.c	/^static int s2os_msg_queue_alloc_security(struct msg_queue *msq)$/;"	f	file:
+s2os_msg_queue_associate	sample.c	/^static int s2os_msg_queue_associate(struct msg_queue *msq, int msqflg)$/;"	f	file:
+s2os_msg_queue_free_security	sample.c	/^static void s2os_msg_queue_free_security(struct msg_queue *msq)$/;"	f	file:
+s2os_msg_queue_msgctl	sample.c	/^static int s2os_msg_queue_msgctl(struct msg_queue *msq, int cmd)$/;"	f	file:
+s2os_msg_queue_msgrcv	sample.c	/^static int s2os_msg_queue_msgrcv(struct msg_queue *msq, struct msg_msg *msg,$/;"	f	file:
+s2os_msg_queue_msgsnd	sample.c	/^static int s2os_msg_queue_msgsnd(struct msg_queue *msq, struct msg_msg *msg, int msqflg)$/;"	f	file:
+s2os_netlink_recv	sample.c	/^static int s2os_netlink_recv(struct sk_buff *skb, int capability)$/;"	f	file:
+s2os_netlink_send	sample.c	/^static int s2os_netlink_send(struct sock *sk, struct sk_buff *skb)$/;"	f	file:
+s2os_ops	sample.c	/^static struct security_operations s2os_ops = {$/;"	v	typeref:struct:security_operations	file:
+s2os_parse_opts_str	sample.c	/^static int s2os_parse_opts_str(char *options, struct security_mnt_opts *opts)$/;"	f	file:
+s2os_ptrace_access_check	sample.c	/^static int s2os_ptrace_access_check(struct task_struct *child,$/;"	f	file:
+s2os_ptrace_traceme	sample.c	/^static int s2os_ptrace_traceme(struct task_struct *parent)$/;"	f	file:
+s2os_quota_on	sample.c	/^static int s2os_quota_on(struct dentry *dentry)$/;"	f	file:
+s2os_quotactl	sample.c	/^static int s2os_quotactl(int cmds, int type, int id, struct super_block *sb)$/;"	f	file:
+s2os_release_secctx	sample.c	/^static void s2os_release_secctx(char *secdata, u32 seclen)$/;"	f	file:
+s2os_req_classify_flow	sample.c	/^static void s2os_req_classify_flow(const struct request_sock *req,$/;"	f	file:
+s2os_save_sysflow_func	sample.c	/^EXPORT_SYMBOL_GPL(s2os_save_sysflow_func);$/;"	v
+s2os_save_sysflow_func	sample.c	/^int s2os_save_sysflow_func(S2OS_SYSFLOW_FUNC pFunc)$/;"	f
+s2os_sb_alloc_security	sample.c	/^static int s2os_sb_alloc_security(struct super_block *sb)$/;"	f	file:
+s2os_sb_clone_mnt_opts	sample.c	/^static void s2os_sb_clone_mnt_opts(const struct super_block *oldsb,$/;"	f	file:
+s2os_sb_copy_data	sample.c	/^static int s2os_sb_copy_data(char *orig, char *copy)$/;"	f	file:
+s2os_sb_free_security	sample.c	/^static void s2os_sb_free_security(struct super_block *sb)$/;"	f	file:
+s2os_sb_kern_mount	sample.c	/^static int s2os_sb_kern_mount(struct super_block *sb, int flags, void *data)$/;"	f	file:
+s2os_sb_remount	sample.c	/^static int s2os_sb_remount(struct super_block *sb, void *data)$/;"	f	file:
+s2os_sb_show_options	sample.c	/^static int s2os_sb_show_options(struct seq_file *m, struct super_block *sb)$/;"	f	file:
+s2os_sb_statfs	sample.c	/^static int s2os_sb_statfs(struct dentry *dentry)$/;"	f	file:
+s2os_secctx_to_secid	sample.c	/^static int s2os_secctx_to_secid(const char *secdata, u32 seclen, u32 *secid)$/;"	f	file:
+s2os_secid_to_secctx	sample.c	/^static int s2os_secid_to_secctx(u32 secid, char **secdata, u32 *seclen)$/;"	f	file:
+s2os_secmark_refcount_dec	sample.c	/^static void s2os_secmark_refcount_dec(void)$/;"	f	file:
+s2os_secmark_refcount_inc	sample.c	/^static void s2os_secmark_refcount_inc(void)$/;"	f	file:
+s2os_secmark_relabel_packet	sample.c	/^static int s2os_secmark_relabel_packet(u32 sid)$/;"	f	file:
+s2os_sem_alloc_security	sample.c	/^static int s2os_sem_alloc_security(struct sem_array *sma)$/;"	f	file:
+s2os_sem_associate	sample.c	/^static int s2os_sem_associate(struct sem_array *sma, int semflg)$/;"	f	file:
+s2os_sem_free_security	sample.c	/^static void s2os_sem_free_security(struct sem_array *sma)$/;"	f	file:
+s2os_sem_semctl	sample.c	/^static int s2os_sem_semctl(struct sem_array *sma, int cmd)$/;"	f	file:
+s2os_sem_semop	sample.c	/^static int s2os_sem_semop(struct sem_array *sma,$/;"	f	file:
+s2os_set_mnt_opts	sample.c	/^static int s2os_set_mnt_opts(struct super_block *sb,$/;"	f	file:
+s2os_setprocattr	sample.c	/^static int s2os_setprocattr(struct task_struct *p,$/;"	f	file:
+s2os_shm_alloc_security	sample.c	/^static int s2os_shm_alloc_security(struct shmid_kernel *shp)$/;"	f	file:
+s2os_shm_associate	sample.c	/^static int s2os_shm_associate(struct shmid_kernel *shp, int shmflg)$/;"	f	file:
+s2os_shm_free_security	sample.c	/^static void s2os_shm_free_security(struct shmid_kernel *shp)$/;"	f	file:
+s2os_shm_shmat	sample.c	/^static int s2os_shm_shmat(struct shmid_kernel *shp,$/;"	f	file:
+s2os_shm_shmctl	sample.c	/^static int s2os_shm_shmctl(struct shmid_kernel *shp, int cmd)$/;"	f	file:
+s2os_sk_alloc_security	sample.c	/^static int s2os_sk_alloc_security(struct sock *sk, int family, gfp_t priority)$/;"	f	file:
+s2os_sk_clone_security	sample.c	/^static void s2os_sk_clone_security(const struct sock *sk, struct sock *newsk)$/;"	f	file:
+s2os_sk_free_security	sample.c	/^static void s2os_sk_free_security(struct sock *sk)$/;"	f	file:
+s2os_sk_getsecid	sample.c	/^static void s2os_sk_getsecid(struct sock *sk, u32 *secid)$/;"	f	file:
+s2os_sock_graft	sample.c	/^static void s2os_sock_graft(struct sock *sk, struct socket *parent)$/;"	f	file:
+s2os_socket_accept	sample.c	/^static int s2os_socket_accept(struct socket *sock, struct socket *newsock)$/;"	f	file:
+s2os_socket_bind	sample.c	/^static int s2os_socket_bind(struct socket *sock, struct sockaddr *address, int addrlen)$/;"	f	file:
+s2os_socket_connect	sample.c	/^static int s2os_socket_connect(struct socket *sock, struct sockaddr *address, int addrlen)$/;"	f	file:
+s2os_socket_create	sample.c	/^static int s2os_socket_create(int family, int type,$/;"	f	file:
+s2os_socket_getpeername	sample.c	/^static int s2os_socket_getpeername(struct socket *sock)$/;"	f	file:
+s2os_socket_getpeersec_dgram	sample.c	/^static int s2os_socket_getpeersec_dgram(struct socket *sock, struct sk_buff *skb, u32 *secid)$/;"	f	file:
+s2os_socket_getpeersec_stream	sample.c	/^static int s2os_socket_getpeersec_stream(struct socket *sock, char __user *optval,$/;"	f	file:
+s2os_socket_getrcvpkt	sample.c	/^static int s2os_socket_getrcvpkt(struct sk_buff *skb)$/;"	f	file:
+s2os_socket_getsockname	sample.c	/^static int s2os_socket_getsockname(struct socket *sock)$/;"	f	file:
+s2os_socket_getsockopt	sample.c	/^static int s2os_socket_getsockopt(struct socket *sock, int level,$/;"	f	file:
+s2os_socket_listen	sample.c	/^static int s2os_socket_listen(struct socket *sock, int backlog)$/;"	f	file:
+s2os_socket_post_create	sample.c	/^static int s2os_socket_post_create(struct socket *sock, int family,$/;"	f	file:
+s2os_socket_recvmsg	sample.c	/^static int s2os_socket_recvmsg(struct socket *sock, struct msghdr *msg,$/;"	f	file:
+s2os_socket_sendmsg	sample.c	/^static int s2os_socket_sendmsg(struct socket *sock, struct msghdr *msg,$/;"	f	file:
+s2os_socket_setsndpkt	sample.c	/^static void s2os_socket_setsndpkt(struct sock *sk, struct sk_buff *skb)$/;"	f	file:
+s2os_socket_setsockopt	sample.c	/^static int s2os_socket_setsockopt(struct socket *sock, int level, int optname)$/;"	f	file:
+s2os_socket_shutdown	sample.c	/^static int s2os_socket_shutdown(struct socket *sock, int how)$/;"	f	file:
+s2os_socket_sock_rcv_skb	sample.c	/^static int s2os_socket_sock_rcv_skb(struct sock *sk, struct sk_buff *skb)$/;"	f	file:
+s2os_socket_unix_may_send	sample.c	/^static int s2os_socket_unix_may_send(struct socket *sock,$/;"	f	file:
+s2os_socket_unix_stream_connect	sample.c	/^static int s2os_socket_unix_stream_connect(struct sock *sock,$/;"	f	file:
+s2os_syslog	sample.c	/^static int s2os_syslog(int type)$/;"	f	file:
+s2os_task_create	sample.c	/^static int s2os_task_create(unsigned long clone_flags)$/;"	f	file:
+s2os_task_getioprio	sample.c	/^static int s2os_task_getioprio(struct task_struct *p)$/;"	f	file:
+s2os_task_getpgid	sample.c	/^static int s2os_task_getpgid(struct task_struct *p)$/;"	f	file:
+s2os_task_getscheduler	sample.c	/^static int s2os_task_getscheduler(struct task_struct *p)$/;"	f	file:
+s2os_task_getsecid	sample.c	/^static void s2os_task_getsecid(struct task_struct *p, u32 *secid)$/;"	f	file:
+s2os_task_getsid	sample.c	/^static int s2os_task_getsid(struct task_struct *p)$/;"	f	file:
+s2os_task_kill	sample.c	/^static int s2os_task_kill(struct task_struct *p, struct siginfo *info,$/;"	f	file:
+s2os_task_movememory	sample.c	/^static int s2os_task_movememory(struct task_struct *p)$/;"	f	file:
+s2os_task_setioprio	sample.c	/^static int s2os_task_setioprio(struct task_struct *p, int ioprio)$/;"	f	file:
+s2os_task_setnice	sample.c	/^static int s2os_task_setnice(struct task_struct *p, int nice)$/;"	f	file:
+s2os_task_setpgid	sample.c	/^static int s2os_task_setpgid(struct task_struct *p, pid_t pgid)$/;"	f	file:
+s2os_task_setrlimit	sample.c	/^static int s2os_task_setrlimit(struct task_struct *p, unsigned int resource,$/;"	f	file:
+s2os_task_setscheduler	sample.c	/^static int s2os_task_setscheduler(struct task_struct *p)$/;"	f	file:
+s2os_task_to_inode	sample.c	/^static void s2os_task_to_inode(struct task_struct *p,$/;"	f	file:
+s2os_task_wait	sample.c	/^static int s2os_task_wait(struct task_struct *p)$/;"	f	file:
+s2os_tun_dev_attach	sample.c	/^static int s2os_tun_dev_attach(struct sock *sk)$/;"	f	file:
+s2os_tun_dev_create	sample.c	/^static int s2os_tun_dev_create(void)$/;"	f	file:
+s2os_tun_dev_post_create	sample.c	/^static void s2os_tun_dev_post_create(struct sock *sk)$/;"	f	file:
+s2os_umount	sample.c	/^static int s2os_umount(struct vfsmount *mnt, int flags)$/;"	f	file:
+s2os_vm_enough_memory	sample.c	/^static int s2os_vm_enough_memory(struct mm_struct *mm, long pages)$/;"	f	file:
+size	sample.c	/^	size_t size;$/;"	m	struct:HashTable	file:
+start_time	sample.c	/^struct timeval start_time, stop_time;$/;"	v	typeref:struct:timeval
+stop_time	sample.c	/^struct timeval start_time, stop_time;$/;"	v	typeref:struct:
+sweep_action	sample.c	/^static inline void sweep_action(struct sysflow_action *action) {$/;"	f	file:
+sweep_event	sample.c	/^static inline void sweep_event(struct sysflow_system_event *event) {$/;"	f	file:
+t	sample.c	/^unsigned int t;$/;"	v
+table	sample.c	/^HashTable table;$/;"	v
+threshold	sample.c	/^	size_t threshold;$/;"	m	struct:HashTable	file:
+value	sample.c	/^	void* value;$/;"	m	struct:HTNode	file:
+value_size	sample.c	/^	size_t value_size;$/;"	m	struct:HashTable	file:

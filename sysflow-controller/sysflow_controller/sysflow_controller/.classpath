@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry exported="true" kind="lib" path="/Users/kevin/Share/sysflow-jianwei_11.15.2019/SysFlowController-master/libs/annotations-3.0.1u2.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/kevin/Share/sysflow-jianwei_11.15.2019/SysFlowController-master/libs/guava-20.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/kevin/Share/sysflow-jianwei_11.15.2019/SysFlowController-master/libs/jcip-annotations-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/kevin/Share/sysflow-jianwei_11.15.2019/SysFlowController-master/libs/jsr305-3.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/kevin/Share/sysflow-jianwei_11.15.2019/SysFlowController-master/libs/logback-classic-1.2.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/kevin/Share/sysflow-jianwei_11.15.2019/SysFlowController-master/libs/logback-core-1.2.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/kevin/Share/sysflow-jianwei_11.15.2019/SysFlowController-master/libs/netty-all-4.1.33.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/kevin/Share/sysflow-jianwei_11.15.2019/SysFlowController-master/libs/openflowj-1.0.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/kevin/Share/sysflow-jianwei_11.15.2019/SysFlowController-master/libs/slf4j-api-1.7.25.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/kevin/Share/sysflow-jianwei_11.15.2019/SysFlowController-master/libs/netty-3.4.6.final.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

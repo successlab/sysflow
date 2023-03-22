@@ -1,0 +1,42 @@
+package sysflow_controller.test;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
+import java.util.logging.Logger;
+
+import java.nio.ByteBuffer;
+import java.util.TimeZone;
+
+/**
+ * Represents the TimeRequest message that can be sent to the server. This is the
+ * java form of the message.
+ */
+public class HelloMessage extends Message {
+    private String timeZone;
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimezone(TimeZone zone) {
+        timeZone = zone.getID();
+    }
+
+
+    @Override
+    public String toString() {
+        return "Hello Message";
+    }
+
+    /** converts the raw message into this message object */
+    public void fromBytes(ByteBuffer message) {
+        timeZone = stringFromMsg(message);
+    }
+
+    /** converts the message into raw bytes. */
+    public void toBytes(ByteBuffer buffer) {
+        stringToMsg(buffer, timeZone);
+    }
+
+}

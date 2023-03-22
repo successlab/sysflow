@@ -1,0 +1,33 @@
+package sysflow_controller.core;
+
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.epoll.EpollServerSocketChannel;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+
+import java.net.InetSocketAddress;
+import java.util.List;
+
+/**
+ * Representation of a SysFlow controller.
+ */
+
+public class Controller {
+
+	protected int sysFlowPort = 5001;
+
+	// **************
+	// Initialization
+	// **************
+
+	private void start(int port) {
+		EventLoopGroup group = new NioEventLoopGroup();
+		final ServerBootstrap bootstrap = new ServerBootstrap();
+		bootstrap.group(group);
+		bootstrap.channel(NioServerSocketChannel.class);
+		bootstrap.localAddress(new InetSocketAddress("localhost", port));
+		
+		bootstrap.childHandler(new OFChannelInitializer(this, null, sslContext));
+	}
+}

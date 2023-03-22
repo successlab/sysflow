@@ -1,0 +1,16 @@
+package sysflow_controller;
+
+/*bitwise mask for sysflow key, 
+8th digit for src, 7th for dst, 6th for opcode, rest digits are reserved*/
+
+public class sf_type_mask {
+	int mask;
+	
+	public sf_type_mask(boolean matchSource, boolean matchDst, boolean matchOPCode){
+		this.mask = 0;
+		
+		if (matchSource){
+			
+		}
+	}
+}

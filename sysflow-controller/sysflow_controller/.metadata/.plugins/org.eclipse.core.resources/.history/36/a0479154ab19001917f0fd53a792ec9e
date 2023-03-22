@@ -1,0 +1,9 @@
+package sysflow_controller;
+
+public class sf_hello_message  extends sf_message implements Cloneable{
+	byte type;
+	
+	public sf_hellp_message(){
+		type = sf_message_type.SFP_HELLO;
+	}
+}

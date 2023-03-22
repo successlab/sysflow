@@ -1,0 +1,63 @@
+package sysflow_controller.core;
+
+public class SFMessageEncoder {
+
+	private static final Logger log = getLogger(OFMessageEncoder.class);
+
+    private static final OFMessageEncoder INSTANCE = new OFMessageEncoder();
+
+    public static OFMessageEncoder getInstance() {
+        return INSTANCE;
+    }
+
+    private OFMessageEncoder() {}
+
+    protected final void encode(ChannelHandlerContext ctx,
+                          Iterable<OFMessage> msgs,
+                          ByteBuf out) {
+
+        msgs.forEach(msg -> msg.writeTo(out));
+    }
+
+    // MessageToByteEncoder without dependency to TypeParameterMatcher
+    @Override
+    public void write(ChannelHandlerContext ctx,
+                      Object msg,
+                      ChannelPromise promise) {
+
+        ByteBuf buf = null;
+        try {
+            if (msg instanceof Iterable) {
+                @SuppressWarnings("unchecked")
+                Iterable<OFMessage> ofmsgs =  (Iterable<OFMessage>) msg;
+                buf = ctx.alloc().ioBuffer();
+
+                encode(ctx, ofmsgs, buf);
+
+                if (buf.isReadable()) {
+                    ctx.write(buf, promise);
+                } else {
+                    log.warn("NOTHING WAS WRITTEN for {}", msg);
+                    buf.release();
+                    ctx.write(Unpooled.EMPTY_BUFFER, promise);
+                }
+                buf = null;
+
+            } else {
+                log.warn("Attempted to encode unexpected message: {}", msg);
+                ctx.write(msg, promise);
+            }
+        } catch (EncoderException e) {
+            log.error("EncoderException handling {}", msg, e);
+            throw e;
+        } catch (Throwable e) {
+            log.error("Exception handling {}", msg, e);
+            throw new EncoderException(e);
+        } finally {
+            if (buf != null) {
+                buf.release();
+            }
+        }
+    }
+
+}

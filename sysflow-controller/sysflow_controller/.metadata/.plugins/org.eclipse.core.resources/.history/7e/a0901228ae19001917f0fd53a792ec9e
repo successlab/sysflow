@@ -1,0 +1,10 @@
+package sysflow_controller;
+
+public class sf_match_type {
+	public static final byte SFP_HELLO = 0;
+	public static final byte SFP_INFO_REQUEST = 1;
+	public static final byte SFP_INFO_REPLY = 2;
+	public static final byte SFP_FLOW_MOD = 3;
+	public static final byte SFP_FLOW_STATE_REQUEST = 4;
+	public static final byte SFP_FLOW_STATE_REPORT = 5;
+}

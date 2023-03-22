@@ -1,0 +1,96 @@
+package sysflow_controller.test;
+
+import java.net.*;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.util.logging.Logger;
+import java.io.*;
+
+public class testController {
+	private final static int SERVER_PORT = 5000;
+	private final static int SOCKET_BUFFER = 2000;
+	
+	private final static Logger logger = Logger.getLogger("SysFlow Controller");
+
+	public static void main(String args[]){
+		 ServerSocket server = null;
+		 
+		 try {
+			 ServerSocketChannel serverSocket = ServerSocketChannel.open();
+			 serverSocket.bind(new InetSocketAddress("localhost", SERVER_PORT));
+			 logger.info("Listening on " + SERVER_PORT);
+			 
+             SocketChannel socket = serverSocket.accept();
+             
+			 processSocket(socket);
+			 
+			
+		 }
+		 catch (SocketException e) {
+			 System.out.println("Socket: " + e.getMessage());
+		 }
+		 catch (IOException e) {
+			 System.out.println("IO:  "+ e.getMessage());
+		 }
+	}
+	
+	
+	private static void installMessage(SocketChannel socket, Message outMsg) throws IOException{
+		Message.sendMessage(socket, outMsg);
+	}
+	
+	/**
+	 * function to handle SysFlow message
+	 * @param msg the SysFlow message parsed from socket input buffer
+	 * @throws IOException
+	 * 
+	 * TODO: implement SysFlow protocol state machine
+	 */
+	private static void handleMessage(SocketChannel socket, Message inMsg) throws IOException{
+		 if(inMsg == null) {
+	            throw new IOException("Parsing null SysFlow message. ");
+	     }
+		 
+		 Message outMsg = null;
+		 
+		  if (inMsg instanceof HelloMessage){
+			  //TODO: send out hello message
+			  outMsg = new InfoRequestMessage(inMsg.getXid());
+			  
+			 logger.info("Length of sendout msg: " + outMsg.getLength());
+
+			  Message.sendMessage(socket, outMsg);
+			  logger.info("send out Host Information Request message.");
+	      }
+		  else if (inMsg instanceof InfoReplyMessage){
+			  
+		  }
+		  else{
+			  logger.severe("Unexpected incoming message " + inMsg);
+		  }
+	}
+	
+	private static void processSocket(SocketChannel socket) throws IOException {
+	        
+			ByteBuffer dataBuffer = ByteBuffer.allocate(2048);
+	        
+			/*
+			InetSocketAddress socketAddr = (InetSocketAddress) socket.getRemoteAddress();
+			InetAddress hostAddr = socketAddr.getAddress();
+			*/	
+					
+	        //convert to little endian order
+	        dataBuffer.order(ByteOrder.LITTLE_ENDIAN);
+	        
+	        // it's customary to log out who's just connected.
+	        logger.info("Socket opened to " + socket.getRemoteAddress());
+	        
+	        Message msg = Message.getMessageFromSocket(socket, dataBuffer);
+	        
+	        //handle sysflow message
+	        handleMessage(socket, msg);
+	     
+	    }
+}

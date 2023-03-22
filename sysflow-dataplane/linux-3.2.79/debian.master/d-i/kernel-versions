@@ -1,0 +1,17 @@
+# arch	version		flavour		installedname			suffix	bdep
+amd64	3.2.0-126	generic		3.2.0-126-generic		-	
+amd64	3.2.0-126	virtual		3.2.0-126-virtual		-	
+
+i386	3.2.0-126	generic		3.2.0-126-generic		-	
+i386	3.2.0-126	generic-pae	3.2.0-126-generic-pae	-	
+i386	3.2.0-126	virtual		3.2.0-126-virtual		-	
+
+armel	3.2.0-126	omap		3.2.0-126-omap		-
+
+armhf	3.2.0-126	omap		3.2.0-126-omap		-
+armhf	3.2.0-126	highbank	3.2.0-126-highbank		-
+
+# Ports
+# arch	version		flavour		installedname			suffix	bdep
+powerpc	3.2.0-126	powerpc-smp			3.2.0-126-powerpc-smp		-	
+powerpc	3.2.0-126	powerpc64-smp		3.2.0-126-powerpc64-smp	-	

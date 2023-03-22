@@ -1,0 +1,7 @@
+config SECURITY_SAMPLE
+	bool "Sample"
+	default n
+	help
+	  This selects the Sample.
+	  If you are unsure how to answer this question, answer N.
+

@@ -1,0 +1,39 @@
+package sysflow_controller;
+
+public class sysflow_message {
+
+}
+
+package edu.flowcontroller.protocol.action;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+
+public class FCAction {
+	protected byte type;
+	
+    public static int getLength() {
+        return Byte.SIZE + Integer.SIZE;
+    }
+    
+    public byte getType() {
+    	  
+    	return this.type;
+    	          
+    }
+    
+    public void setType(byte type) {
+        this.type = type;
+    }
+    
+    public  byte[] serialize() throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream( );
+		
+		out.write(this.type);
+		
+	   
+		return out.toByteArray();
+	}
+      
+}
